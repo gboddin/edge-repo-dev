@@ -51,7 +51,7 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %if !0%{?el5}
 #BuildRequires:    tcl >= 8.5
 %endif
-BuildRequires:     cmake, gcc-c++, bison, lynx, flex
+BuildRequires:     cmake, gcc-c++, bison, lynx, flex, openssl-devel
 
 # Required for proxysql-shutdown
 #Requires:         /bin/awk
