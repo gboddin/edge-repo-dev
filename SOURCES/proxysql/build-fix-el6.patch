@@ -20,3 +20,17 @@
  LDFLAGS+=
  
  NOJEMALLOC := $(shell echo $(NOJEMALLOC))
+--- a/lib/Makefile	2016-10-09 16:41:16.172825052 +0000
++++ b/lib/Makefile	2016-10-09 16:41:42.573475319 +0000
+@@ -38,9 +38,9 @@
+ #CC=clang
+ 
+ #CFLAGS=$(IDIRS) $(OPTZ) $(DEBUG) -Wall #-lcrypto
+-#CPPFLAGS=-std=c++11 $(CFLAGS) $(LDIRS) $(LIBS)
++#CPPFLAGS=-std=c++0x $(CFLAGS) $(LDIRS) $(LIBS)
+ MYCFLAGS=$(IDIRS) $(OPTZ) $(DEBUG) -Wall
+-MYCPPFLAGS=-std=c++11 $(MYCFLAGS)
++MYCPPFLAGS=-std=c++0x $(MYCFLAGS)
+ 
+ default: libproxysql.a
+ .PHONY: default
