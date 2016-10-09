@@ -43,18 +43,12 @@ Source9:          %{name}-limit-init
 Patch0:           build-fix-el6.patch
 %endif
 
-# Update configuration for Fedora
-
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-%if !0%{?el5}
-#BuildRequires:    tcl >= 8.5
-%endif
-BuildRequires:     cmake, gcc-c++, bison, lynx, flex, openssl-devel
+BuildRequires:    cmake, gcc-c++, bison, lynx, flex, openssl-devel
 
-# Required for proxysql-shutdown
-#Requires:         /bin/awk
 Requires:         logrotate, openssl
 Requires(pre):    shadow-utils
+
 %if %{with_systemd}
 BuildRequires:    systemd-units
 Requires(post):   systemd-units
@@ -87,6 +81,7 @@ generation about the workload.
 %else
 %setup -q -n %{name}-%{version}
 %endif
+
 %if 0%{?rhel} == 6
 %patch0 -p1
 %endif
@@ -94,11 +89,15 @@ generation about the workload.
 %build
 
 export CFLAGS="$RPM_OPT_FLAGS"
-make %{?_smp_mflags} V=1 \
+make %{?_smp_mflags}  \
   DEBUG="" \
   LDFLAGS="%{?__global_ldflags}" \
-  CFLAGS="$RPM_OPT_FLAGS" 
-
+  build_deps
+ 
+make %{?_smp_mflags}  \
+  DEBUG="" \
+  LDFLAGS="%{?__global_ldflags}" 
+ 
 %check
 %if %{with_tests}
 make test
@@ -107,8 +106,7 @@ make test
 %endif
 
 %install
-make install PREFIX=%{buildroot}%{_prefix}
-# Install misc other
+install -p -D -m 755 src/%{name} %{buildroot}%{_bindir}/%{name}
 install -p -D -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 install -p -D -m 644 %{name}.cnf  %{buildroot}%{_sysconfdir}/%{name}.cnf
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{name}
