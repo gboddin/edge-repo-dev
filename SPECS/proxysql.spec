@@ -99,7 +99,7 @@ export CFLAGS="$RPM_OPT_FLAGS"
 make %{?_smp_mflags} V=1 \
   DEBUG="" \
   LDFLAGS="%{?__global_ldflags}" \
-  CFLAGS="$RPM_OPT_FLAGS -fPIC" 
+  CFLAGS="$RPM_OPT_FLAGS" 
 
 %check
 %if %{with_tests}
