@@ -55,7 +55,7 @@ BuildRequires:     cmake, gcc-c++, bison, lynx, flex, openssl-devel
 
 # Required for proxysql-shutdown
 #Requires:         /bin/awk
-Requires:         logrotate
+Requires:         logrotate, openssl
 Requires(pre):    shadow-utils
 %if %{with_systemd}
 BuildRequires:    systemd-units
