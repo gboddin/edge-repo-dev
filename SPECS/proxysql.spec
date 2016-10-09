@@ -35,8 +35,6 @@ Source1:          %{name}.logrotate
 Source2:          %{name}.init
 Source3:          %{name}.service
 Source4:          %{name}.tmpfiles
-Source5:          %{name}-sentinel.init
-Source6:          %{name}-sentinel.service
 Source7:          %{name}-shutdown
 Source8:          %{name}-limit-systemd
 Source9:          %{name}-limit-init
@@ -112,7 +110,7 @@ make test
 make install PREFIX=%{buildroot}%{_prefix}
 # Install misc other
 install -p -D -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
-install -p -D -m 644 %{name}.conf  %{buildroot}%{_sysconfdir}/%{name}.conf
+install -p -D -m 644 %{name}.cnf  %{buildroot}%{_sysconfdir}/%{name}.cnf
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{name}
 install -d -m 755 %{buildroot}%{_localstatedir}/log/%{name}
 install -d -m 755 %{buildroot}%{_localstatedir}/run/%{name}
@@ -120,15 +118,12 @@ install -d -m 755 %{buildroot}%{_localstatedir}/run/%{name}
 %if %{with_systemd}
 # Install systemd unit
 install -p -D -m 644 %{SOURCE3} %{buildroot}%{_unitdir}/%{name}.service
-install -p -D -m 644 %{SOURCE6} %{buildroot}%{_unitdir}/%{name}-sentinel.service
 # Install systemd tmpfiles config, _tmpfilesdir only defined in fedora >= 18
-install -p -D -m 644 %{SOURCE4} %{buildroot}%{_prefix}/lib/tmpfiles.d/%{name}.conf
+install -p -D -m 644 %{SOURCE4} %{buildroot}%{_prefix}/lib/tmpfiles.d/%{name}.cnf
 # this folder requires systemd >= 204
 install -p -D -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/systemd/system/%{name}.service.d/limit.conf
-install -p -D -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/systemd/system/%{name}-sentinel.service.d/limit.conf
 %else
 install -p -D -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/%{name}
-install -p -D -m 755 %{SOURCE5} %{buildroot}%{_initrddir}/%{name}-sentinel
 install -p -D -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/security/limits.d/95-%{name}.conf
 %endif
 
@@ -182,23 +177,18 @@ fi
 %license COPYING
 %doc 00-RELEASENOTES BUGS CONTRIBUTING MANIFESTO README.md
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
-%attr(0644, proxysql, root) %config(noreplace) %{_sysconfdir}/%{name}.conf
-%attr(0644, proxysql, root) %config(noreplace) %{_sysconfdir}/%{name}-sentinel.conf
+%attr(0644, proxysql, root) %config(noreplace) %{_sysconfdir}/%{name}.cnf
 %dir %attr(0755, proxysql, proxysql) %{_localstatedir}/lib/%{name}
 %dir %attr(0755, proxysql, proxysql) %{_localstatedir}/log/%{name}
 %dir %attr(0755, proxysql, proxysql) %{_localstatedir}/run/%{name}
 %{_bindir}/%{name}-*
 %if %{with_systemd}
-%{_prefix}/lib/tmpfiles.d/%{name}.conf
+%{_prefix}/lib/tmpfiles.d/%{name}.cnf
 %{_unitdir}/%{name}.service
-%{_unitdir}/%{name}-sentinel.service
 %dir %{_sysconfdir}/systemd/system/%{name}.service.d
 %config(noreplace) %{_sysconfdir}/systemd/system/%{name}.service.d/limit.conf
-%dir %{_sysconfdir}/systemd/system/%{name}-sentinel.service.d
-%config(noreplace) %{_sysconfdir}/systemd/system/%{name}-sentinel.service.d/limit.conf
 %else
 %{_initrddir}/%{name}
-%{_initrddir}/%{name}-sentinel
 %config(noreplace) %{_sysconfdir}/security/limits.d/95-%{name}.conf
 %endif
 
