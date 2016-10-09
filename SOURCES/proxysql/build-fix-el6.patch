@@ -1,0 +1,22 @@
+--- a/Makefile	2016-09-30 00:32:18.000000000 +0200
++++ b/Makefile  2016-10-09 17:54:20.748833010 +0200
+@@ -11,7 +11,7 @@
+ #export OPTZ
+ #export EXTRALINK
+ CURVER=1.2.4
+-DISTRO := $(shell gawk -F= '/^NAME/{print $$2}' /etc/os-release)
++DISTRO = "CentOS Linux" 
+ ifeq ($(wildcard /usr/lib/systemd/systemd), /usr/lib/systemd/systemd)
+ 	SYSTEMD=1
+ else
+--- a/src/Makefile	2016-10-09 16:24:51.564966058 +0000
++++ b/src/Makefile	2016-10-09 16:25:22.690300788 +0000
+@@ -32,7 +32,7 @@
+ LDIRS=-L$(LDIR) -L$(JEMALLOC_LDIR) $(LIBCONFIG_LDIR) -L$(RE2_PATH)/obj -L$(MARIADB_LDIR) -L$(DAEMONPATH_LDIR)
+ 
+ 
+-MYCPPFLAGS=-std=c++11 $(IDIRS) $(OPTZ) $(DEBUG)
++MYCPPFLAGS=-std=c++0x $(IDIRS) $(OPTZ) $(DEBUG)
+ LDFLAGS+=
+ 
+ NOJEMALLOC := $(shell echo $(NOJEMALLOC))

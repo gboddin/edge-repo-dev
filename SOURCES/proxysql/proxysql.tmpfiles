@@ -1,0 +1,2 @@
+# proxysql runtime directory
+d /run/proxysql 0755 proxysql proxysql -

@@ -1,0 +1,13 @@
+[Unit]
+Description=ProxySQL persistent key-value database
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/proxysql-server /etc/proxysql.conf --daemonize no
+ExecStop=/usr/bin/proxysql-shutdown
+User=proxysql
+Group=proxysql
+
+[Install]
+WantedBy=multi-user.target
+
