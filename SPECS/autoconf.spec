@@ -1,5 +1,6 @@
 Summary:    A GNU tool for automatically configuring source code
 Name:       autoconf
+Group:      Development/Tools
 Version:    2.69
 Release:    23%{?dist}
 License:    GPLv2+ and GFDL
