@@ -1,6 +1,6 @@
 Name: spdylay
 Version: 1.4.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: The experimental SPDY protocol version 2 and 3 implementation in C
 
 Group: System Environment/Libraries
@@ -10,7 +10,7 @@ Source0: https://github.com/tatsuhiro-t/spdylay/releases/download/v%{version}/sp
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: pkgconfig >= 0.20, zlib >= 1.2.3, gcc, gcc-c++, make
-BuildRequires: openssl-devel
+BuildRequires: openssl-devel, libxml2-devel
 %if 0%{?rhel} >= 6
 BuildRequires: CUnit-devel
 %endif
